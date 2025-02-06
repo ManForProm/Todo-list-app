@@ -1,6 +1,11 @@
-import inversify, { Container } from "inversify";
+import { Container } from "inversify";
 import TaskController from "../controllers/TaskController.js";
 import UserController from "../controllers/UserController.js";
+import { decorateTaskController } from "../decorators/TaskControllerDecorators.js";
+import { decorateTaskService } from "../decorators/TaskServiceDecorators.js";
+import { decorateUserController } from "../decorators/UserControllerDecorators.js";
+import { decorateUserService } from "../decorators/UserServiceDecorators.js";
+import { decorateValidationProvider } from "../decorators/ValidationProviderDecorators.js";
 import TaskRepository from "../repositories/TaskRepository.js";
 import UserRepository from "../repositories/UserRepository.js";
 import TaskService from "../services/TaskService.js";
@@ -17,18 +22,13 @@ container.bind(APP_TYPES.UserController).to(UserController);
 container.bind(APP_TYPES.UserService).to(UserService);
 container.bind(APP_TYPES.ValidationProvider).to(ValidationProvider).inSingletonScope();
 
+decorateTaskController();
+decorateTaskService();
+decorateUserController();
+decorateUserService();
+decorateValidationProvider();
 
 
-inversify.decorate(inversify.injectable(),TaskController)
-inversify.decorate(inversify.inject(APP_TYPES.TaskService),TaskController,0);
-inversify.decorate(inversify.inject(APP_TYPES.ValidationProvider),TaskController,1);
 
-
-inversify.decorate(inversify.injectable(),ValidationProvider);
-inversify.decorate(inversify.inject(APP_TYPES.UserService),ValidationProvider,0);
-inversify.decorate(inversify.inject(APP_TYPES.TaskService),ValidationProvider,1);
-
-inversify.decorate(inversify.injectable(),TaskService);
-inversify.decorate(inversify.inject(APP_TYPES.TaskRepository),TaskService,0);
 
 

@@ -1,8 +1,9 @@
 
+//check decorators
 export default class TaskService {
-    constructor(taskRepository){
-        this._taskRepository = taskRepository;
-    }
+  constructor(taskRepository) {
+    this._taskRepository = taskRepository;
+  }
   async createTask(title, discription, complite, userEmail) {
     return await this._taskRepository.createTask(
       title,
@@ -21,7 +22,12 @@ export default class TaskService {
   }
 
   async updateTask(id, title, discription, complite) {
-    return await this._taskRepository.updateTask(id, title, discription, complite);
+    return await this._taskRepository.updateTask(
+      id,
+      title,
+      discription,
+      complite
+    );
   }
 
   async deleteTask(id) {

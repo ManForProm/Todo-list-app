@@ -1,5 +1,7 @@
 import { validationResult } from 'express-validator';
+import { errorMessages } from '../constants/strings.js';
 
+//check decorators
 export class ValidationProvider {
     constructor(userService, taskService){
         this._userService = userService;
@@ -10,26 +12,26 @@ export class ValidationProvider {
         const user = await this._userService.getUserByName(value)
         console.log(`validation value: ${user}`);
         if(!user.toString()){
-            throw new Error("User not found");
+            throw new Error(errorMessages.USER_NOT_FOUND);
         }
     }
     isEmailTaskNotExist = async (value) => {
         console.log(`validation value: ${value}`);
         const task = await this._taskService.getTaskByEmail(value);
         if(!task.toString()){
-            throw new Error("Tasks for this email is not exist");
+            throw new Error(errorMessages.TASK_NOT_EXIST);
         }
     }
     isEmailExist = async (value) => {
         const user = await this._userService.getUserByEmail(value);
         if(user.toString()){
-            throw new Error("This email is exist");
+            throw new Error(errorMessages.EMAIL_EXIST);
         }
     }
     isUsernameExist = async (value) => {
         const user = await this._userService.getUserByName(value);
         if(user.toString()){
-            throw new Error("This username is exist");
+            throw new Error(errorMessages.USERNAME_EXIST);
         }
     }
 }
